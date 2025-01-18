@@ -1,4 +1,4 @@
-# Operating Systems & Cybersecurity Projects
+# Cybersecurity Projects
 
 This repository contains implementations of three major projects focusing on operating system internals and cryptographic security.
 
