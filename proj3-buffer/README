@@ -1,0 +1,7 @@
+Why this attack string ?
+
+
+The length of the attack string is calculated as: (address where the return address is stored - address of buffer) + 4. This guarantees that even if there are other variables present, they won’t affect the exploitation. First, as this is a little-endian machine, I filled the attack string with characters (garbage values), as far as there are no null bytes, it’s valid. for the last 4 bytes I have filled in, the target function address in reverse order. When an attack string floods the stack, the buffer becomes filled with garbage and the return address is overwritten with the address of the target function. Even though we have corrupted the stack values, there is no segmentation fault because the target function calls exit(0).
+
+This attack string is effective not just for the specified buffer in vuln_program, but for any size of buffer. The current buffer size is 128, but what if the buffer size decreased (underflow) or increased beyond 128 (overflow)? Simply relying on the target function won't work if the buffer size changes. The program may attempt to access memory it shouldn't, resulting in a program crash (segmentation fault). Therefore, it's essential to use the start buffer address along with the address where the return address is stored in the stack and the target function address.
+
